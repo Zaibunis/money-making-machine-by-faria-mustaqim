@@ -22,7 +22,7 @@ def fetch_side_hustle():
             hustles = response.json()
             return hustles["side_hustles"]
         else:
-            return("Freelancing")
+            return("Freelancing - Start offering your skills online!")
         
     except:
         return ("Something went wrong!")
