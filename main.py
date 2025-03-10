@@ -3,10 +3,6 @@ import random
 import time
 import requests
 
-# Get API URLs from secrets or use localhost as fallback
-HUSTLE_URL = st.secrets["HUSTLE_URL"] if "HUSTLE_URL" in st.secrets else "http://127.0.0.1:8000/side_hustles"
-QUOTES_URL = st.secrets["QUOTES_URL"] if "QUOTES_URL" in st.secrets else "http://127.0.0.1:8000/money_quotes"
-
 st.title("Money Making Machine")
 
 def generate_money():
@@ -21,37 +17,34 @@ if st.button("Generate Money"):
 
 def fetch_side_hustle():
     try:
-        response = requests.get(HUSTLE_URL)
+        response = requests.get("http://127.0.0.1:8000/side_hustles")
         if response.status_code == 200:
             hustles = response.json()
             return hustles["side_hustles"]
         else:
-            return "Freelancing"
-    except Exception as e:
-        print(f"Error: {e}")
-        return "Something went wrong!"
-
-# Create a section for side hustle ideas
+            return("Freelancing - Start offering your skills online!")
+        
+    except:
+        return ("Something went wrong!")
+    
 st.subheader("Side Hustle Ideas")
-if st.button("Generate Hustle"):  # When user clicks button
-    idea = fetch_side_hustle()  # Get a hustle idea
-    st.success(idea)  # Show the idea
-
-# Function to get money-related quotes from server
-def fetch_money_quote():
+if st.button("Generate Hustle:"):
+    idea = fetch_side_hustle()
+    st.success(idea)
+        
+def fetch_money_quotes():
     try:
-        response = requests.get(QUOTES_URL)
+        response = requests.get("http://127.0.0.1:8000/money_quotes")
         if response.status_code == 200:
             quotes = response.json()
-            return quotes["money_quotes"]
+            return  quotes["money_quotes"]
         else:
-            return "Money is the root of all evil!"
-    except Exception as e:
-        print(f"Error: {e}")
-        return "Something went wrong!"
-
-# Create a section for motivation quotes
-st.subheader("Money-Making Motivation")
-if st.button("Get Inspired"):  # When user clicks button
-    quote = fetch_money_quote()  # Get a quote
-    st.info(quote)  # Show the quote
+            return("Money is the root of all evil")
+        
+    except:
+        return ("Something went wrong!")
+    
+st.subheader("Money Making Motivation")
+if st.button("Get Inspired:"):
+    quote = fetch_money_quotes()
+    st.info(quote)
